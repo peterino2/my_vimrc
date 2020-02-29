@@ -18,14 +18,12 @@ def install_dependencies():
         os.system('sudo apt install fzf')
         os.system('sudo apt install ripgrep')
         os.system('sudo apt install ctags')
-        should_set_vars = input("I want to set the Variable FZF_DEFAULT_COMMAND to 'rg --files --no-ignore-vcs --hidden' by appending it to your ~/.bashrc you allow this? [Y/n]")
+        should_set_vars = input("I want to set the Variable FZF_DEFAULT_COMMAND to 'rg --files --no-ignore-vcs --hidden' by appending it to your ~/.profile. do you want this? [Y/n]")
         if "y" in should_set_vars.lower(): 
-            os.system('echo export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden"')
+            os.system('echo export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden" >> ~/.profile')
             print('done')
         else:
             print('not done')
-        
-        print("if $TERMINAL is not set, you will probably want to set it to your favorite terminal, one of my hotkeys opens $TERMINAL on the current file, I find this useful.")
 
 def setup_vimrc():
     repo_dir = os.getcwd()
@@ -44,7 +42,17 @@ def setup_vimrc():
     if(not os.path.exists(os.path.join(vim_path, 'bundle/Vundle.vim'))):
         os.system('git clone https://github.com/VundleVim/Vundle.vim.git ' + vim_path) # need vundle 
 
-    os.system(f'echo source {repo_dir}/base.vim >> {vimrc_path}')
+    if(not os.path.exists('install_file')):
+        should_prepend = input(f"I want prepend 'source {repo_dir}/base.vim' to your vimrc [Y/n]")
+        if "y" in should_set_vars.lower(): 
+            os.system(f'cp {vimrc_path} {vimrc_path}.backup')
+            os.system(f'echo source {repo_dir}/base.vim > install_file')
+            os.system(f'cat {vimrc_path} >> install_file')
+            os.system(f'mv install_file {vimrc_path}')
+            print('done')
+        else:
+            os.system('touch install_file')
+            print('not done')
 
     os.system('vim +PluginInstall +qall')
 

@@ -15,6 +15,12 @@ manually:
 automagically:
 1. python install.py 
 
+## Install fonts
+* `:set guifont *` 
+    * opens a selector wheel for fonts
+    * The font selected will be temporary to save it add `:set guifont=<>` to your vimrc 
+    * you can get the current guifont by calling `:set guifont`
+
 # What do i get? 
 
 the stuff i like to use on vim. and all of it works even over the internet.
@@ -43,10 +49,6 @@ the stuff i like to use on vim. and all of it works even over the internet.
     * `:AcpDisable`
 
 ### gvim features
-* `:set guifont *` 
-    * opens a selector wheel for fonts
-    * The font selected will be temporary to save it add `:set guifont=<>` to your vimrc 
-    * you can get the current guifont by calling `:set guifont`
 * `:bro sav` opens file that functions as a 'save as ..'
 * `:bro open` opens file that functions as a 'open ..'
 

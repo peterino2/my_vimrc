@@ -33,7 +33,6 @@ set number
 set relativenumber
 syntax on
 set mouse=a
-set guifont=Lucida\ Console:h12:cANSI
 set noswapfile
 set noundofile
 set nobackup
