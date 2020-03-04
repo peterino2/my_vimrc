@@ -43,7 +43,7 @@ def setup_vimrc():
         os.system('git clone https://github.com/VundleVim/Vundle.vim.git ' + vim_path) # need vundle 
 
     if(not os.path.exists('install_file')):
-        should_prepend = input(f"I want prepend 'source {repo_dir}/base.vim' to your vimrc [Y/n]")
+        should_set_vars = input(f"I want prepend 'source {repo_dir}/base.vim' to your vimrc [Y/n]")
         if "y" in should_set_vars.lower(): 
             os.system(f'cp {vimrc_path} {vimrc_path}.backup')
             os.system(f'echo source {repo_dir}/base.vim > install_file')
