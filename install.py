@@ -1,9 +1,10 @@
 import os 
 import pathlib 
 import subprocess
+import argparse
 
 
-def install_dependencies():
+def install_dependencies(args):
     if os.name == 'nt':
         os.system('powershell -Command "Set-ExecutionPolicy RemoteSigned -scope CurrentUser"')
         os.system('powershell -Command "Set-ExecutionPolicy RemoteSigned -scope CurrentUser"')
@@ -14,16 +15,21 @@ def install_dependencies():
         os.system('scoop install ctags')
         os.system('setx FZF_DEFAULT_COMMAND "rg --files --no-ignore-vcs --hidden"')
     else: 
-        # may need other stuff. 
-        os.system('sudo apt install fzf')
-        os.system('sudo apt install ripgrep')
-        os.system('sudo apt install ctags')
-        should_set_vars = input("I want to set the Variable FZF_DEFAULT_COMMAND to 'rg --files --no-ignore-vcs --hidden' by appending it to your ~/.profile. do you want this? [Y/n]")
-        if "y" in should_set_vars.lower(): 
-            os.system('echo export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden" >> ~/.profile')
-            print('done')
+        if args.manjaro:
+            os.system('yay -S fzf')
+            os.system('yay -S ripgrep')
+            os.system('yay -S ctags')
         else:
-            print('not done')
+            # may need other stuff. 
+            os.system('sudo apt install fzf')
+            os.system('sudo apt install ripgrep')
+            os.system('sudo apt install ctags')
+            should_set_vars = input("I want to set the Variable FZF_DEFAULT_COMMAND to 'rg --files --no-ignore-vcs --hidden' by appending it to your ~/.profile. do you want this? [Y/n]")
+            if "y" in should_set_vars.lower(): 
+                os.system('echo export FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden" >> ~/.profile')
+                print('done')
+            else:
+                print('not done')
 
 def setup_vimrc():
     repo_dir = os.getcwd()
@@ -40,7 +46,7 @@ def setup_vimrc():
         os.system('cp hc_burn.vim ' + colors_path)
 
     if(not os.path.exists(os.path.join(vim_path, 'bundle/Vundle.vim'))):
-        os.system('git clone https://github.com/VundleVim/Vundle.vim.git ' + vim_path) # need vundle 
+        os.system('git clone https://github.com/VundleVim/Vundle.vim.git ' + os.path.join(vim_path,'bundle/Vundle.vim')) # need vundle 
 
     if(not os.path.exists('install_file')):
         should_set_vars = input(f"I want prepend 'source {repo_dir}/base.vim' to your vimrc [Y/n]")
@@ -56,7 +62,11 @@ def setup_vimrc():
 
     os.system('vim +PluginInstall +qall')
 
-install_dependencies()
+parser = argparse.ArgumentParser()
+
+parser.add_argument("--manjaro", help="executes the installer scripts for manjaro", action='store_true')
+
+install_dependencies(parser.parse_args())
 setup_vimrc()
 print("its all good now. have a gander at the readme")
 
