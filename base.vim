@@ -22,6 +22,14 @@ Plugin 'skywind3000/asyncrun.vim'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'matze/vim-meson'
+Plugin 'rust-lang/rust.vim'
+Plugin 'ziglang/zig.vim'
+Plugin 'mattn/calendar-vim'
+Plugin 'vim-scripts/utl.vim'
+Plugin 'chrisbra/NrrwRgn'
+Plugin 'inkarkat/vim-SyntaxRange'
+Plugin 'aaronbieber/vim-quicktask'
+Plugin 'tpope/vim-repeat'
 " different version somewhere else.
 " Plugin 'ascenator/L9', {'name': 'newL9'}
 
@@ -53,6 +61,13 @@ set expandtab
 
 nmap <F8> :TagbarToggle<CR>
 nmap <F5> :vim NOTES:: % <CR> :copen <CR>
+if has('win32')
+    nmap <F6> :tabnew C:/notes/todo.md <CR>
+endif
+
+function!Tzig()
+    execute "AsyncRun -mode=term -pos=bottom -rows=15 -cols=40 -focus=0 zig test %:p"
+endfunction
 
 function!QuickPutRange()
     call inputsave()
@@ -68,6 +83,8 @@ if has('win32')
     nmap <F11> :!start %:p:h<CR>
 endif
 " may want to do the same in linux
+
+nmap <F12> :call Tzig()<CR>
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -145,3 +162,7 @@ autocmd InsertEnter * set cul
 autocmd InsertLeave * set cul!
 
 colorscheme hc_burn
+
+set belloff=all
+packloadall
+silent! helptags all
