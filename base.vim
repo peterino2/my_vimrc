@@ -1,7 +1,15 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+set hidden
+set nobackup
+set nowritebackup
+
+set updatetime=300
+set shortmess+=c
+
 " set the runtime path to include Vundle and initialize
+set rtp+=~/p_testplugins/
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin() " alternatively, pass a path where Vundle should install plugins
@@ -13,14 +21,14 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
 Plugin 'itchyny/lightline.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'vim-scripts/AutoComplPop'
 Plugin 'airblade/vim-rooter'
-Plugin 'wincent/ferret'
 Plugin 'skywind3000/asyncrun.vim'
-Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf'
 Plugin 'matze/vim-meson'
 Plugin 'rust-lang/rust.vim'
 Plugin 'ziglang/zig.vim'
@@ -30,12 +38,38 @@ Plugin 'chrisbra/NrrwRgn'
 Plugin 'inkarkat/vim-SyntaxRange'
 Plugin 'aaronbieber/vim-quicktask'
 Plugin 'tpope/vim-repeat'
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
-
-" All of your Plugins must be added before the following line
+Plugin 'neovim/nvim-lspconfig'
+Plugin 'simrat39/rust-tools.nvim'
+Plugin 'nvim-lua/popup.nvim'
+Plugin 'nvim-lua/plenary.nvim'
+Plugin 'nvim-telescope/telescope.nvim'
+Plugin 'djoshea/vim-autoread'
+Plugin 'mfussenegger/nvim-dap'
+Plugin 'norcalli/nvim-colorizer.lua'
+Plugin 'folke/which-key.nvim'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+" All of your Plugins must be added before the following lin
 call vundle#end()            " required
+
+lua << EOF
+  require("which-key").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
+
 filetype plugin indent on    " requiredset diffexpr=MyDiff()
+
+" Enable snipMate compatibility feature.
+let g:neosnippet#enable_snipmate_compatibility = 1
+
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+
+set timeoutlen=300
+let mapleader=" "
 
 set number
 set relativenumber
@@ -44,9 +78,6 @@ set mouse=a
 set noswapfile
 set noundofile
 set nobackup
-map <C-n> :NERDTreeToggle<CR>
-map <C-m> :NERDTreeFind<CR>
-map <C-e> :set fdm=manual<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 set guitablabel=%t
 
@@ -102,7 +133,8 @@ nnoremap <C-Q> :bro sav<CR>
 nnoremap <C-X> :q <CR>
 nnoremap <C-S> :wa <CR>
 
-autocmd BufEnter * lcd %:p:h
+set autochdir
+
 "let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 " Enable Dlang support with
 " This uses d language patch with exuberant-ctags Uhh I dont think I have this
@@ -147,7 +179,6 @@ au BufRead,BufNewFile *.html.twig set filetype=html
 au BufRead,BufNewFile *.peg set filetype=asm
 au BufRead,BufNewFile *.rdl set filetype=verilog
 
-imap <F11> <Esc><F11>
 
 set backspace=indent,eol,start
 set undofile
@@ -166,3 +197,46 @@ colorscheme hc_burn
 set belloff=all
 packloadall
 silent! helptags all
+
+let s:fontsize = 12
+function! AdjustFontSize(amount)
+  let s:fontsize = s:fontsize+a:amount
+  :execute "set guifont=Consolas:h" . s:fontsize
+endfunction
+
+
+" In normal mode, pressing numpad's+ increases the font
+noremap <leader>= :call AdjustFontSize(1)<CR>
+noremap <leader>+ :call AdjustFontSize(4)<CR>
+noremap <leader>- :call AdjustFontSize(-1)<CR>
+noremap <leader>_ :call AdjustFontSize(-4)<CR>
+
+noremap <leader>ew :call jobstart(['neovide', expand('%:p') ]) <CR>
+noremap <leader>er :source $MYVIMRC<CR>
+noremap <leader>ei :PluginInstall<CR>
+noremap <leader>el :e ~/my_vimrc/base.vim<CR>
+noremap <leader>dp :w<CR>:sv<CR>:terminal python -m pdb %:p<CR>
+map <leader>ee :set fdm=manual<CR> :AcpDisable<CR>
+
+let g:UltiSnipsJumpForwardTrigger="<c-r>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+
+let neovide_remember_window_size = v:true
+let g:neovide_fullscreen=v:true
+let g:neovide_refresh_rate=140
+let g:neovide_cursor_animation_length=0.07
+
+map <C-n> :NERDTreeToggle<CR>
+map <S-n> :NERDTreeFind<CR>
+
+
+" trigger `autoread` when files changes on disk
+set autoread
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+" notification after file change
+autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+
