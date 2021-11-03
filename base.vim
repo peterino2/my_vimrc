@@ -10,6 +10,7 @@ set shortmess+=c
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/p_testplugins/
+set rtp+=~/my_vimrc/plugins/
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin() " alternatively, pass a path where Vundle should install plugins
@@ -21,35 +22,41 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
 Plugin 'itchyny/lightline.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'vim-scripts/AutoComplPop'
 Plugin 'airblade/vim-rooter'
-Plugin 'skywind3000/asyncrun.vim'
+Plugin 'jlanzarotta/bufexplorer'
+Plugin 'numirias/semshi'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
+
 Plugin 'vimwiki/vimwiki.git'
-Plugin 'matze/vim-meson'
-Plugin 'rust-lang/rust.vim'
-Plugin 'ziglang/zig.vim'
-Plugin 'mattn/calendar-vim'
-Plugin 'vim-scripts/utl.vim'
-Plugin 'chrisbra/NrrwRgn'
 Plugin 'inkarkat/vim-SyntaxRange'
 Plugin 'aaronbieber/vim-quicktask'
 Plugin 'tpope/vim-repeat'
 Plugin 'neovim/nvim-lspconfig'
-Plugin 'simrat39/rust-tools.nvim'
-Plugin 'nvim-lua/popup.nvim'
-Plugin 'nvim-lua/plenary.nvim'
+Plugin 'vim-scripts/utl.vim'
+Plugin 'mhinz/vim-startify'
+
 Plugin 'nvim-telescope/telescope.nvim'
-Plugin 'djoshea/vim-autoread'
-Plugin 'mfussenegger/nvim-dap'
 Plugin 'norcalli/nvim-colorizer.lua'
 Plugin 'folke/which-key.nvim'
+" If you want to have icons in your status-line choose one of these
+Plugin 'kyazdani42/nvim-web-devicons'
+
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+
+" meson build system support
+Plugin 'matze/vim-meson'
+
+" rust specific tools
+Plugin 'simrat39/rust-tools.nvim'
+Plugin 'rust-lang/rust.vim'
+
+" zig language support
+Plugin 'ziglang/zig.vim'
 " All of your Plugins must be added before the following lin
 call vundle#end()            " required
 
@@ -61,9 +68,9 @@ lua << EOF
   }
 EOF
 
-filetype plugin indent on    " requiredset diffexpr=MyDiff()
+filetype plugin indent on
 
-" Enable snipMate compatibility feature.
+" Enable SnipMate compatibility feature.
 let g:neosnippet#enable_snipmate_compatibility = 1
 
 " Tell Neosnippet about the other snippets
@@ -84,7 +91,6 @@ set guitablabel=%t
 
 set guioptions-=m
 set guioptions-=T
-"set guioptions-=r
 set guioptions-=L
 
 set shiftwidth=4
@@ -93,12 +99,14 @@ set expandtab
 
 nmap <F8> :TagbarToggle<CR>
 nmap <F5> :vim NOTES:: % <CR> :copen <CR>
+
 if has('win32')
-    nnoremap <leader>et :tabnew C:/notes/todo.md <CR>
+    let g:my_shell = "cmd"
 endif
 
+
 function!Tzig()
-    execute "AsyncRun -mode=term -pos=bottom -rows=15 -cols=40 -focus=0 zig test %:p"
+    :call jobstart( g:my_shell . " zig test %:p")
 endfunction
 
 function!QuickPutRange()
@@ -114,7 +122,7 @@ if has('win32')
     nmap <F10> :!start npp.exe %<CR> :echo "NORMIE MODE ENGAGED"<CR>
     nmap <F11> :!start %:p:h<CR>
 endif
-" may want to do the same in linux
+" may want to do the same in Linux linux
 
 nmap <F12> :call Tzig()<CR>
 
@@ -174,7 +182,6 @@ let g:tagbar_type_d = {
 \ }
 
 set laststatus=2
-set foldmethod=syntax
 
 au BufRead,BufNewFile *.html.twig set filetype=html
 au BufRead,BufNewFile *.peg set filetype=asm
@@ -199,25 +206,52 @@ set belloff=all
 packloadall
 silent! helptags all
 
-let s:fontsize = 12
+let g:fontsize = 12 " you can override this default in init.vim
 function! AdjustFontSize(amount)
-  let s:fontsize = s:fontsize+a:amount
-  :execute "set guifont=Consolas:h" . s:fontsize
+  let g:fontsize = g:fontsize+a:amount
+  :execute "set guifont=Consolas:h" . g:fontsize
 endfunction
 
+function! AdjustFontSize_Interactive()
+  let g:fontsize = input('enter new font size: ')
+  :execute "set guifont=Consolas:h" . g:fontsize
+endfunction
 
-" In normal mode, pressing numpad's+ increases the font
 noremap <leader>= :call AdjustFontSize(1)<CR>
 noremap <leader>+ :call AdjustFontSize(4)<CR>
 noremap <leader>- :call AdjustFontSize(-1)<CR>
 noremap <leader>_ :call AdjustFontSize(-4)<CR>
+noremap <leader>/ :call AdjustFontSize_Interactive()<CR>
 
-noremap <leader>ew :call jobstart(['neovide', expand('%:p') ]) <CR>
-noremap <leader>er :source $MYVIMRC<CR>
-noremap <leader>ei :PluginInstall<CR>
-noremap <leader>el :e ~/my_vimrc/base.vim<CR>
-noremap <leader>dp :w<CR>:sv<CR>:terminal python -m pdb %:p<CR>
-map <leader>ee :set fdm=manual<CR> :AcpDisable<CR>
+noremap <leader>1r :source $MYVIMRC<CR>
+noremap <leader>1i :PluginInstall<CR>
+noremap <leader>1l :e ~/my_vimrc/base.vim<CR>
+noremap <leader>1L :e $MYVIMRC<CR>
+
+if has('win32')
+    noremap <leader>ew :call jobstart(['neovide','--multigrid', expand('%:p') ]) <CR>
+endif
+noremap <leader>eb :BufExplorer<CR>
+" open a terminal 
+
+let g:peter_terminal = 'alacritty'
+noremap <leader>e` :call jobstart(['cmd', '@%'])<CR> 
+
+noremap <leader>n :NERDTreeToggle<CR>
+noremap <leader>m :NERDTreeFind<CR>
+
+noremap <leader>ff :Rg 
+noremap <leader>fs :Rg expand(<cword>)<CR>
+noremap <leader>ft :tabnew<CR> :Rg 
+noremap <leader>fw :call jobstart(['neovide'. '--multigrid', expand('%:p'), '+:Rg' ]) <CR> 
+
+map <leader>ep :set fdm=syntax<CR> :AcpEnable<CR>
+map <leader>ee :set fdm=manual<CR> :AcpEnable<CR>
+map <leader>eE :set fdm=manual<CR> :AcpDisable<CR>
+
+if has('win32')
+    nnoremap <leader>et :tabnew C:/notes/todo.md <CR>
+endif
 
 let g:UltiSnipsJumpForwardTrigger="<c-r>"
 
@@ -227,13 +261,9 @@ if has('conceal')
 endif
 
 let neovide_remember_window_size = v:true
-let g:neovide_fullscreen=v:true
-let g:neovide_refresh_rate=140
-let g:neovide_cursor_animation_length=0.07
-
-map <C-n> :NERDTreeToggle<CR>
-map <S-n> :NERDTreeFind<CR>
-
+let g:neovide_fullscreen=v:false
+let g:neovide_refresh_rate=144
+let g:neovide_cursor_animation_length=0.02
 
 " trigger `autoread` when files changes on disk
 set autoread
@@ -241,3 +271,7 @@ autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checkti
 " notification after file change
 autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
+lua require('colorizer').setup()
+
+setlocal spell spelllang=en_us
+autocmd BufEnter * lcd %:p:h

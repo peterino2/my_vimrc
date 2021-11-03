@@ -6,6 +6,9 @@ import argparse
 
 
 orig_dir = os.path.dirname(os.path.abspath(__file__))
+repo_dir = orig_dir
+user_path = os.path.abspath(str(pathlib.Path.home()))
+colors_path = os.path.join(user_path, 'Appdata/Local/nvim/colors')
 
 def install_dependencies(args):
     if os.name == 'nt':
@@ -17,7 +20,6 @@ def install_dependencies(args):
         os.system('scoop install ripgrep')
         os.system('scoop install ctags')
         os.system('scoop bucket add extras')
-        os.system('scoop install neovide')
         os.system('scoop install neovim')
         os.system('setx FZF_DEFAULT_COMMAND "rg --files --no-ignore-vcs --hidden"')
     else: 
@@ -30,7 +32,6 @@ def install_dependencies(args):
             os.system('sudo apt install fzf')
             os.system('sudo apt install ripgrep')
             os.system('sudo apt install ctags')
-            os.system('snap install neovide')
             os.system('snap install neovim')
 
             should_set_vars = input("I want to set the Variable FZF_DEFAULT_COMMAND to 'rg --files --no-ignore-vcs --hidden' by appending it to your ~/.profile. do you want this? [Y/n]")
@@ -40,44 +41,9 @@ def install_dependencies(args):
             else:
                 print('not done')
 
-def setup_vimrc():
-    repo_dir = os.getcwd()
-    vim_path = os.path.join(str(pathlib.Path.home()), '.vim/')
-    vimrc_path = os.path.join(str(pathlib.Path.home()), '.vimrc')
-
-    colors_path = os.path.join(vim_path, 'colors' )
-    if os.name == 'nt':
-        vimrc_path = os.path.join(str(pathlib.Path.home()), '_vimrc')
-
-    if(not os.path.exists(vim_path)):
-        os.mkdir(vim_path)
-        if(not os.path.exists(colors_path)):
-            os.mkdir(colors_path)
-        os.system('cp hc_burn.vim ' + colors_path)
-
-    if(not os.path.exists(os.path.join(vim_path, 'bundle/Vundle.vim'))):
-        os.system('git clone https://github.com/VundleVim/Vundle.vim.git ' + os.path.join(vim_path,'bundle/Vundle.vim')) # need vundle 
-
-    if(not os.path.exists('install_file')):
-        should_set_vars = input(f"I want prepend 'source {repo_dir}/base.vim' to your vimrc [Y/n]")
-        if "y" in should_set_vars.lower(): 
-            os.system(f'cp {vimrc_path} {vimrc_path}.backup')
-            os.system(f'echo source {repo_dir}/base.vim > install_file')
-            os.system(f'cat {vimrc_path} >> install_file')
-            os.system(f'mv install_file {vimrc_path}')
-            print('done')
-        else:
-            os.system('touch install_file')
-            print('not done')
-
-    os.system('vim +PluginInstall +qall')
-
 def setup_neovide(args):
 
     if os.name == 'nt':
-        repo_dir = orig_dir
-        user_path = os.path.abspath(str(pathlib.Path.home()))
-        colors_path = os.path.join(user_path, 'Appdata/Local/nvim/colors')
         os.makedirs(colors_path, exist_ok=True)
 
         shutil.copy(os.path.join(orig_dir, 'hc_burn.vim'), colors_path)
@@ -106,7 +72,26 @@ def setup_neovide(args):
         if(not os.path.exists(os.path.join(user_path, '.vim/bundle/Vundle.vim'))):
             os.system('git clone https://github.com/VundleVim/Vundle.vim.git ' + os.path.join(user_path, '.vim/bundle/Vundle.vim')) # need vundle 
 
-        os.system('neovide +PluginInstall +qall')
+def setup_neovide_deps():
+    if os.name == 'nt':
+        os.system('scoop uninstall neovide')
+        os.system('scoop install cmake')
+        os.system('scoop install llvm')
+
+def setup_neovide_dev(args):
+    setup_neovide_deps()
+    if not os.path.exists('~/neovide'):
+        os.system(f'git clone https://github.com/neovide/neovide {os.path.join(user_path, "neovide")}')
+    else:
+        os.system('cd ~/neovide/ && git fetch && git pull && ' + \
+                'git checkout -f')
+    my_apps_path = os.path.abspath(os.path.join(user_path, 'my_apps'))
+    os.makedirs(my_apps_path, exist_ok = True)
+    os.system('cd neovide && cargo build --release')
+    shutil.copy(os.path.join(user_path, 'neovide/target/release/neovide.exe'), f'{my_apps_path}')
+    if os.name == 'nt':
+        os.system('setx NEOVIDE_MULTIGRID "true"')
+        print("Add ~/my_apps to PATH and you're good to go")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -115,3 +100,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
     install_dependencies(args)
     setup_neovide(args)
+    setup_neovide_dev(args)
