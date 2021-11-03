@@ -5,6 +5,7 @@ set hidden
 set nobackup
 set nowritebackup
 
+set termguicolors
 set updatetime=300
 set shortmess+=c
 
@@ -264,6 +265,7 @@ let neovide_remember_window_size = v:true
 let g:neovide_fullscreen=v:false
 let g:neovide_refresh_rate=144
 let g:neovide_cursor_animation_length=0.02
+
 
 " trigger `autoread` when files changes on disk
 set autoread
