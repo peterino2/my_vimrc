@@ -29,6 +29,7 @@ Plugin 'airblade/vim-rooter'
 Plugin 'skywind3000/asyncrun.vim'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
+Plugin 'vimwiki/vimwiki.git'
 Plugin 'matze/vim-meson'
 Plugin 'rust-lang/rust.vim'
 Plugin 'ziglang/zig.vim'
@@ -93,7 +94,7 @@ set expandtab
 nmap <F8> :TagbarToggle<CR>
 nmap <F5> :vim NOTES:: % <CR> :copen <CR>
 if has('win32')
-    nmap <F6> :tabnew C:/notes/todo.md <CR>
+    nnoremap <leader>et :tabnew C:/notes/todo.md <CR>
 endif
 
 function!Tzig()
