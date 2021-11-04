@@ -87,7 +87,7 @@ def setup_neovide_dev(args):
                 'git checkout -f')
     my_apps_path = os.path.abspath(os.path.join(user_path, 'my_apps'))
     os.makedirs(my_apps_path, exist_ok = True)
-    os.system('cd neovide && cargo build --release')
+    os.system(f'cd {os.path.join(user_path, "neovide")} && cargo build --release')
     shutil.copy(os.path.join(user_path, 'neovide/target/release/neovide.exe'), f'{my_apps_path}')
     if os.name == 'nt':
         os.system('setx NEOVIDE_MULTIGRID "true"')

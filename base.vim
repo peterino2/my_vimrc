@@ -23,6 +23,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
 Plugin 'itchyny/lightline.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'vim-scripts/AutoComplPop'
@@ -31,6 +32,7 @@ Plugin 'jlanzarotta/bufexplorer'
 Plugin 'numirias/semshi'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
+Plugin 'sindrets/diffview.nvim'
 
 Plugin 'vimwiki/vimwiki.git'
 Plugin 'inkarkat/vim-SyntaxRange'
@@ -218,6 +220,16 @@ function! AdjustFontSize_Interactive()
   :execute "set guifont=Consolas:h" . g:fontsize
 endfunction
 
+let g:peters_pytest_call = "python -m pytest"
+function! SetPytestCall()
+  let g:peters_pytest_call = input('Enter Command for running pytest (eg. python -m pytest )')
+endfunction
+
+function! DoPytest()
+ :tabnew
+ :ter g:peters_pytest_call . " %:h:p"
+endfunction
+
 noremap <leader>= :call AdjustFontSize(1)<CR>
 noremap <leader>+ :call AdjustFontSize(4)<CR>
 noremap <leader>- :call AdjustFontSize(-1)<CR>
@@ -249,6 +261,8 @@ noremap <leader>fw :call jobstart(['neovide'. '--multigrid', expand('%:p'), '+:R
 map <leader>ep :set fdm=syntax<CR> :AcpEnable<CR>
 map <leader>ee :set fdm=manual<CR> :AcpEnable<CR>
 map <leader>eE :set fdm=manual<CR> :AcpDisable<CR>
+map <leader>pt :call DoPytest()<CR>
+map <leader>ps :call SetPythonCall()<CR>
 
 if has('win32')
     nnoremap <leader>et :tabnew C:/notes/todo.md <CR>
@@ -262,9 +276,8 @@ if has('conceal')
 endif
 
 let neovide_remember_window_size = v:true
-let g:neovide_fullscreen=v:false
 let g:neovide_refresh_rate=144
-let g:neovide_cursor_animation_length=0.02
+let g:neovide_cursor_animation_length=0.05
 
 
 " trigger `autoread` when files changes on disk
@@ -276,4 +289,13 @@ autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. B
 lua require('colorizer').setup()
 
 setlocal spell spelllang=en_us
+set spell
 autocmd BufEnter * lcd %:p:h
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
