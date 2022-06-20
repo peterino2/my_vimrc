@@ -10,9 +10,9 @@ set updatetime=300
 set shortmess+=c
 
 " set the runtime path to include Vundle and initialize
+
 "set rtp+=~/p_testplugins/
 "set rtp+=~/my_vimrc/plugins/
-
 call plug#begin()
 
 Plug 'scrooloose/nerdtree'
@@ -34,11 +34,14 @@ Plug 'tami5/lspsaga.nvim', { 'branch': 'main' }
 Plug 'vim-scripts/utl.vim'
 Plug 'mhinz/vim-startify'
 
+
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'folke/which-key.nvim'
 " If you want to have icons in your status-line choose one of these
+
 Plug 'kyazdani42/nvim-web-devicons'
+
 
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -47,14 +50,15 @@ Plug 'honza/vim-snippets'
 Plug 'matze/vim-meson'
 
 " rust specific tools
+
 Plug 'simrat39/rust-tools.nvim'
 Plug 'rust-lang/rust.vim'
 
 " zig language support
+
 Plug 'nvim-lua/completion-nvim'
 Plug 'ziglang/zig.vim'
 " All of your Plugins must be added before the following lin
-
 call plug#end()            " required
 
 lua << EOF
@@ -284,6 +288,7 @@ autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. B
 lua require('colorizer').setup()
 
 setlocal spell spelllang=en_us
+set spell
 autocmd BufEnter * lcd %:p:h
 
 set nowrap
