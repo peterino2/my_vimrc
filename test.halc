@@ -1,0 +1,24 @@
+[label]
+$: whats up
+@if(what the hell)
+@goto wank
+@end
+
+[label]
+$: whats up
+@if()
+@goto wank
+@end
+
+[hello]
+Dude: Hey man how's it going?
+$: You notice that the nice man is talking to you
+    > Praise him:
+        Dude: Damn dude thanks so much for your compliment
+    > Call him something bad:
+        Dude: Wow you really hurt my feelings
+        $: You really hurt his feelings.
+    > Can we start over?:
+        Dude: Of course! I'll take this convo back to the start
+        @goto hello
+@end

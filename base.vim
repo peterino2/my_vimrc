@@ -10,56 +10,52 @@ set updatetime=300
 set shortmess+=c
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/p_testplugins/
-set rtp+=~/my_vimrc/plugins/
-set rtp+=~/.vim/bundle/Vundle.vim
+"set rtp+=~/p_testplugins/
+"set rtp+=~/my_vimrc/plugins/
 
-call vundle#begin() " alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#begin()
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'scrooloose/nerdtree'
-Plugin 'itchyny/lightline.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'vim-scripts/AutoComplPop'
-Plugin 'airblade/vim-rooter'
-Plugin 'jlanzarotta/bufexplorer'
-Plugin 'numirias/semshi'
-Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/fzf'
+Plug 'scrooloose/nerdtree'
+Plug 'itchyny/lightline.vim'
+Plug 'majutsushi/tagbar'
+Plug 'vim-scripts/AutoComplPop'
+Plug 'airblade/vim-rooter'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
+Plug 'tpope/vim-surround'
 
-Plugin 'vimwiki/vimwiki.git'
-Plugin 'inkarkat/vim-SyntaxRange'
-Plugin 'aaronbieber/vim-quicktask'
-Plugin 'tpope/vim-repeat'
-Plugin 'neovim/nvim-lspconfig'
-Plugin 'vim-scripts/utl.vim'
-Plugin 'mhinz/vim-startify'
+Plug 'vimwiki/vimwiki'
+Plug 'inkarkat/vim-SyntaxRange'
+Plug 'aaronbieber/vim-quicktask'
+Plug 'tpope/vim-repeat'
+Plug 'neovim/nvim-lspconfig'
+Plug 'tami5/lspsaga.nvim', { 'branch': 'main' }
+Plug 'vim-scripts/utl.vim'
+Plug 'mhinz/vim-startify'
 
-Plugin 'nvim-telescope/telescope.nvim'
-Plugin 'norcalli/nvim-colorizer.lua'
-Plugin 'folke/which-key.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'folke/which-key.nvim'
 " If you want to have icons in your status-line choose one of these
-Plugin 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
 
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " meson build system support
-Plugin 'matze/vim-meson'
+Plug 'matze/vim-meson'
 
 " rust specific tools
-Plugin 'simrat39/rust-tools.nvim'
-Plugin 'rust-lang/rust.vim'
+Plug 'simrat39/rust-tools.nvim'
+Plug 'rust-lang/rust.vim'
 
 " zig language support
-Plugin 'ziglang/zig.vim'
+Plug 'nvim-lua/completion-nvim'
+Plug 'ziglang/zig.vim'
 " All of your Plugins must be added before the following lin
-call vundle#end()            " required
+
+call plug#end()            " required
 
 lua << EOF
   require("which-key").setup {
@@ -105,6 +101,9 @@ if has('win32')
     let g:my_shell = "cmd"
 endif
 
+if has('win32')
+    " source "~/my_vimrc/halcyon.vim"
+endif
 
 function!Tzig()
     :call jobstart( g:my_shell . " zig test %:p")
@@ -207,7 +206,8 @@ set belloff=all
 packloadall
 silent! helptags all
 
-let g:fontsize = 12 " you can override this default in init.vim
+
+let g:fontsize = get(g:, 'fontsize', 12)
 function! AdjustFontSize(amount)
   let g:fontsize = g:fontsize+a:amount
   :execute "set guifont=Consolas:h" . g:fontsize
@@ -225,7 +225,7 @@ noremap <leader>_ :call AdjustFontSize(-4)<CR>
 noremap <leader>/ :call AdjustFontSize_Interactive()<CR>
 
 noremap <leader>1r :source $MYVIMRC<CR>
-noremap <leader>1i :PluginInstall<CR>
+noremap <leader>1i :PlugInstall<CR>
 noremap <leader>1l :e ~/my_vimrc/base.vim<CR>
 noremap <leader>1L :e $MYVIMRC<CR>
 
@@ -250,6 +250,15 @@ map <leader>ep :set fdm=syntax<CR> :AcpEnable<CR>
 map <leader>ee :set fdm=manual<CR> :AcpEnable<CR>
 map <leader>eE :set fdm=manual<CR> :AcpDisable<CR>
 
+map <leader>af :Lspsaga lsp_finder<CR>
+map <leader>aa :Lspsaga code_action<CR>
+map <leader>ar :Lspsaga range_code_action<CR>
+map <leader>ai :Lspsaga hover_doc<CR>
+map <leader>ak <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
+map <leader>aj <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
+
+map <leader>ac <cmd>lua vim.lsp.buf.code_action()<CR>
+
 if has('win32')
     nnoremap <leader>et :tabnew C:/notes/todo.md <CR>
 endif
@@ -263,7 +272,6 @@ endif
 
 let neovide_remember_window_size = v:true
 let g:neovide_fullscreen=v:false
-let g:neovide_refresh_rate=144
 let g:neovide_cursor_animation_length=0.02
 
 
@@ -277,3 +285,34 @@ lua require('colorizer').setup()
 
 setlocal spell spelllang=en_us
 autocmd BufEnter * lcd %:p:h
+
+set nowrap
+
+:lua << EOF
+    local lspconfig = require('lspconfig')
+
+    local on_attach = function(_, bufnr)
+        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+        require('completion').on_attach()
+    end
+
+    local servers = {'zls'}
+    for _, lsp in ipairs(servers) do
+        lspconfig[lsp].setup {
+            on_attach = on_attach,
+        }
+    end
+
+    local lsp_flags = {
+    -- This is the default in Nvim 0.7+
+    debounce_text_changes = 150,
+    }
+EOF
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+autocmd BufRead,BufNewFile *.halc set filetype=halcyon
+
+" Enable completions as you type
+let g:completion_enable_auto_popup = 1
