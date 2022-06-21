@@ -211,7 +211,7 @@ packloadall
 silent! helptags all
 
 
-let g:fontsize = get(g:, 'fontsize', 12)
+let g:fontsize = get(g:, 'fontsize', 10)
 function! AdjustFontSize(amount)
   let g:fontsize = g:fontsize+a:amount
   :execute "set guifont=Consolas:h" . g:fontsize
