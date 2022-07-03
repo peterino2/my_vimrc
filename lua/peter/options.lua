@@ -18,7 +18,6 @@ vim.opt.updatetime = 300                        -- faster completion (4000ms def
 vim.opt.shortmess:append "c"
 vim.opt.number = true                           -- set numbered lines
 vim.opt.relativenumber = false                  -- set relative numbered lines
-vim.opt.numberwidth = 2                         -- set number column width to 2 {default 4}
 vim.opt.wrap = false                            -- display lines as one long line
 vim.opt.scrolloff = 12                           -- is one of my fav
 vim.opt.sidescrolloff = 8

@@ -15,5 +15,9 @@ end
 
 require("peter.options")
 require("peter.plugins")
+require("peter.cmp")
 require("peter.color")
 require("peter.keybinds")
+require("peter.lsp_config")
+require("peter.snippets")
+
