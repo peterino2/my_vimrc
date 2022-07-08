@@ -45,7 +45,7 @@ vim.opt.expandtab = true                        -- convert tabs to spaces
 vim.opt.shiftwidth = 4                          -- the number of spaces inserted for each indentation
 vim.opt.tabstop = 4                             -- insert 2 spaces for a tab
 vim.opt.cursorline = true                       -- highlight the current line
-vim.opt.signcolumn = "yes"                      -- always show the sign column, otherwise it would shift the text each time
+vim.opt.signcolumn = "no"                      -- always show the sign column, otherwise it would shift the text each time
 vim.opt.guifont = "Consolas:h12"               -- the font used in graphical neovim applications
 
 vim.cmd "set whichwrap+=<,>,[,],h,l"

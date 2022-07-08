@@ -1,14 +1,12 @@
-require 'cmp'.setup{
-    sources = {
-        {name = "nvim_lsp"}
-    }
-}
-
-
 local servers = {'zls'}
 
+vim.g.coq_settings = { auto_start='shut-up', keymap = {
+    jump_to_mark = "<c-n>"
+} }
+
+local coq = require "coq"
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 local lspconfig = require('lspconfig')
 for _, lsp in ipairs(servers) do
@@ -16,13 +14,12 @@ for _, lsp in ipairs(servers) do
         on_attach = on_attach,
         capabilities = capabilities,
     }
+
+    lspconfig[lsp].setup (coq.lsp_ensure_capabilities({capabilities = capabilities}))
 end
 
 local lsp_flags = {
 -- This is the default in Nvim 0.7+
     debounce_text_changes = 500,
 }
-
-
--- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
 

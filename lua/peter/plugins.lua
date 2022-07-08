@@ -47,12 +47,6 @@ return packer.startup(function(use)
     use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
     use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
 
-    use "hrsh7th/nvim-cmp"
-    use "hrsh7th/cmp-buffer"
-    use "hrsh7th/cmp-path"
-    use "hrsh7th/cmp-cmdline"
-    use "saadparwaiz1/cmp_luasnip"
-
     use "L3MON4D3/LuaSnip" --snippet engine
     use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
 
@@ -64,8 +58,11 @@ return packer.startup(function(use)
 
     use "ziglang/zig.vim"
 
+
     use "nathom/filetype.nvim"
-    use "hrsh7th/cmp-nvim-lsp"
+    use "ms-jpq/coq_nvim"
+    use { "ms-jpq/coq.artifacts", branch='artifacts'}
+    use {"ms-jpq/coq.thirdparty", branch='3p'}
 
     if PACKER_BOOTSTRAP then
         require("packer").sync()
