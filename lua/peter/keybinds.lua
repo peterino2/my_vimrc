@@ -45,6 +45,8 @@ keymap("n", "<C-Down>", ":resize +2<CR>", opts)
 keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
+keymap("n", "<C-p>", ":Files<CR>", opts)
+
 keymap("v", ">", ">gv", opts)
 keymap("v", "<", "<gv", opts)
 
@@ -80,8 +82,11 @@ leader("wt", ":tabnew %<CR>")
 leader("wl", ":tabn<CR>")
 leader("wh", ":tabp<CR>")
 
-leader("n", ":NERDTreeToggle<CR>")
-leader("m", ":NERDTreeFind<CR>")
+-- leader("n", ":NERDTreeToggle<CR>")
+-- leader("m", ":NERDTreeFind<CR>")
+leader("n", ":NvimTreeToggle<CR>")
+leader("m", ":NvimTreeFindFile<CR>")
+
 
 -- map('n','gD','<cmd>lua vim.lsp.buf.declaration()<CR>')
 -- map('n','gd','<cmd>lua vim.lsp.buf.definition()<CR>')

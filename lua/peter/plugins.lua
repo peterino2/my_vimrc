@@ -52,12 +52,22 @@ return packer.startup(function(use)
 
     use "liuchengxu/vim-which-key"
     use "scrooloose/nerdtree" -- Useful lua functions used ny lots of plugins
+    use 
+    {
+        'kyazdani42/nvim-tree.lua',
+        requires = {
+        'kyazdani42/nvim-web-devicons', -- optional, for file icons
+        },
+        tag="nightly"
+    }
     
     use "neovim/nvim-lspconfig"
     use "williamboman/nvim-lsp-installer" -- simple to use language server installer
 
     use "ziglang/zig.vim"
 
+    use "junegunn/fzf"
+    use "junegunn/fzf.vim"
 
     use "nathom/filetype.nvim"
     use "ms-jpq/coq_nvim"
