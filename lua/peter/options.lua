@@ -18,7 +18,6 @@ vim.opt.updatetime = 300                        -- faster completion (4000ms def
 vim.opt.shortmess:append "c"
 vim.opt.number = true                           -- set numbered lines
 vim.opt.relativenumber = false                  -- set relative numbered lines
-vim.opt.numberwidth = 2                         -- set number column width to 2 {default 4}
 vim.opt.wrap = false                            -- display lines as one long line
 vim.opt.scrolloff = 12                           -- is one of my fav
 vim.opt.sidescrolloff = 8
@@ -46,7 +45,7 @@ vim.opt.expandtab = true                        -- convert tabs to spaces
 vim.opt.shiftwidth = 4                          -- the number of spaces inserted for each indentation
 vim.opt.tabstop = 4                             -- insert 2 spaces for a tab
 vim.opt.cursorline = true                       -- highlight the current line
-vim.opt.signcolumn = "yes"                      -- always show the sign column, otherwise it would shift the text each time
+vim.opt.signcolumn = "no"                      -- always show the sign column, otherwise it would shift the text each time
 vim.opt.guifont = "Consolas:h12"               -- the font used in graphical neovim applications
 
 vim.cmd "set whichwrap+=<,>,[,],h,l"

@@ -1,0 +1,31 @@
+snippet vart var decl with type
+    var ${1:name}: ${2:anytype} = $0;
+    _ = ${1:name}
+ 
+snippet var var decl
+    var ${1:name} = $0;
+    _ = ${1:name};
+
+snippet fn
+    fn ${1:functionName}(${2:arg}:${3:anytype}) ${4:void} 
+    {
+        _ = $2;
+        $0
+    }
+
+snippet fn2
+    fn ${1:functionName}(${2:arg1}:${3:anytype}, ${4:arg2}:${5:anytype}) ${6:void} 
+    {
+        _ = $2;
+        _ = $4;
+        $0
+    }
+
+snippet fn3
+    fn ${1:functionName}(${2:arg1}:${3:anytype}, ${4:arg2}:${5:anytype}, ${6:arg3}: ${7:anytype}) ${8:void} 
+    {
+        _ = $2;
+        _ = $4;
+        _ = $6;
+        $0
+    }
