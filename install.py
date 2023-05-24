@@ -65,7 +65,7 @@ def setup_neovide(args):
 
         if not skip_nvim_mod:
             with open(os.path.join(user_path, 'Appdata/Local/nvim/init.vim'), 'a+') as f:
-                f.write(f'source {orig_dir}/base.vim')
+                f.write(f'source {orig_dir}/base.lua')
 
         vim_user_path = os.path.join(user_path, '.vim/')
 
