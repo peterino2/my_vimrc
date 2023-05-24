@@ -8,7 +8,13 @@ import argparse
 orig_dir = os.path.dirname(os.path.abspath(__file__))
 repo_dir = orig_dir
 user_path = os.path.abspath(str(pathlib.Path.home()))
-colors_path = os.path.join(user_path, 'Appdata/Local/nvim/colors')
+
+config_path = os.path.join(user_path, '.config/nvim')
+
+if os.name == 'nt':
+    config_path = os.path.join(user_path, 'Appdata/Local/nvim')
+
+colors_path = os.path.join(config_path, '.config/nvim/colors')
 
 def install_dependencies(args):
     if os.name == 'nt':
@@ -23,16 +29,17 @@ def install_dependencies(args):
         os.system('scoop install neovim')
         os.system('setx FZF_DEFAULT_COMMAND "rg --files --no-ignore-vcs --hidden"')
     else: 
-        if args.manjaro:
-            os.system('yay -S fzf')
-            os.system('yay -S ripgrep')
-            os.system('yay -S ctags')
-        else:
-            # may need other stuff. 
-            os.system('sudo apt install fzf')
-            os.system('sudo apt install ripgrep')
-            os.system('sudo apt install ctags')
-            os.system('snap install neovim')
+        if not args.skip_packages:
+            if args.manjaro:
+                os.system('yay -S fzf')
+                os.system('yay -S ripgrep')
+                os.system('yay -S ctags')
+            else:
+                # may need other stuff. 
+                os.system('sudo apt install fzf')
+                os.system('sudo apt install ripgrep')
+                os.system('sudo apt install ctags')
+                os.system('snap install neovim')
 
             should_set_vars = input("I want to set the Variable FZF_DEFAULT_COMMAND to 'rg --files --no-ignore-vcs --hidden' by appending it to your ~/.profile. do you want this? [Y/n]")
             if "y" in should_set_vars.lower(): 
@@ -43,25 +50,38 @@ def install_dependencies(args):
 
 def setup_neovide(args):
 
-    if os.name == 'nt':
-        os.makedirs(colors_path, exist_ok=True)
+    os.makedirs(colors_path, exist_ok=True)
+    os.makedirs(config_path, exist_ok=True)
 
-        shutil.copy(os.path.join(orig_dir, 'hc_burn.vim'), colors_path)
-        os.makedirs(os.path.join(user_path, 'Appdata/Local/nvim'), exist_ok=True)
-        shutil.copy(os.path.join(orig_dir, 'ginit.vim'), os.path.join(user_path, 'Appdata/Local/nvim/'))
+    shutil.copy(os.path.join(orig_dir, 'hc_burn.vim'), colors_path)
+    shutil.copy(os.path.join(orig_dir, 'ginit.vim'), config_path)
 
-        skip_nvim_mod = False
+    skip_nvim_mod = False
 
-        try:
-            with open(os.path.join(user_path, 'Appdata/Local/nvim/init.vim')) as f:
-                x = f.readlines()
-                for i in x:
-                    if 'base.vim' in i:
-                        skip_nvim_mod = True
-                        print("Skippinng config modificiation")
-                        break
-        except FileNotFoundError:
+    try:
+        with open(os.path.join(config_path, 'init.vim')) as f:
+            x = f.readlines()
+            for i in x:
+                if 'base.lua' in i:
+                    skip_nvim_mod = True
+                    print("Skippinng config modificiation")
+                    break
+    except FileNotFoundError:
+        pass
+
+    if not skip_nvim_mod:
+        with open(os.path.join(config_path, 'init.vim'), 'a+') as f:
+            f.write(f'source {orig_dir}/base.lua')
+
+    vim_user_path = os.path.join(user_path, '.vim/')
+
+    if(not os.path.exists(os.path.join(user_path, '.vim/bundle/Vundle.vim'))):
+        os.system('git clone https://github.com/VundleVim/Vundle.vim.git ' + os.path.join(user_path, '.vim/bundle/Vundle.vim')) # need vundle 
+
+    if (not os.path.exists("~/.local/share/nvim/site/pack/packer/start/packer.nvim")):
+        if os.name == 'nt':
             pass
+<<<<<<< HEAD
 
         if not skip_nvim_mod:
             with open(os.path.join(user_path, 'Appdata/Local/nvim/init.vim'), 'a+') as f:
@@ -71,6 +91,10 @@ def setup_neovide(args):
 
         if(not os.path.exists(os.path.join(user_path, '.vim/bundle/Vundle.vim'))):
             os.system('git clone https://github.com/VundleVim/Vundle.vim.git ' + os.path.join(user_path, '.vim/bundle/Vundle.vim')) # need vundle 
+=======
+        else:
+            os.system("git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim")
+>>>>>>> 59525bf7e4ad61b0a8f28709dcdc83d3c1205650
 
 def setup_neovide_deps():
     if os.name == 'nt':
@@ -96,8 +120,10 @@ def setup_neovide_dev(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
+    print(config_path)
+
     parser.add_argument("--manjaro", help="executes the installer scripts for manjaro", action='store_true')
+    parser.add_argument("--skip-packages", help="skips trying to install packages", action='store_true')
     args = parser.parse_args()
     install_dependencies(args)
     setup_neovide(args)
-    setup_neovide_dev(args)

@@ -84,10 +84,6 @@ leader("wh", ":tabp<CR>")
 
 leader("n", ":NERDTreeToggle<CR>")
 leader("m", ":NERDTreeFind<CR>")
--- leader("n", ":NerdTreeToggle<CR>")
--- leader("m", ":NerdTreeFindFile<CR>")
-
-
 leader('gD','<cmd>lua vim.lsp.buf.declaration()<CR>')
 leader('gd','<cmd>lua vim.lsp.buf.definition()<CR>')
 leader('gK','<cmd>lua vim.lsp.buf.hover()<CR>')
@@ -104,3 +100,4 @@ leader('gr','<cmd>lua vim.lsp.buf.rename()<CR>')
 leader('g=', '<cmd>lua vim.lsp.buf.formatting()<CR>')
 leader('gl','<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
 leader('go','<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
+
