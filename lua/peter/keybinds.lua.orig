@@ -20,8 +20,6 @@ vim.cmd[[
 keymap("", "Space", "<Nop>", opts)
 keymap("", "M", "<Nop>", opts)
 
-keymap("n", "<S-k>", "<Nop>", opts)
-
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -83,11 +81,14 @@ leader("sv", ":vs w<CR>")
 leader("wt", ":tabnew %<CR>")
 leader("wl", ":tabn<CR>")
 leader("wh", ":tabp<CR>")
-leader('ws', ":split %<CR>")
-leader('wv', ":vsplit %<CR>")
 
 leader("n", ":NERDTreeToggle<CR>")
 leader("m", ":NERDTreeFind<CR>")
+<<<<<<< HEAD
+-- leader("n", ":NerdTreeToggle<CR>")
+-- leader("m", ":NerdTreeFindFile<CR>")
+
+
 leader('gD','<cmd>lua vim.lsp.buf.declaration()<CR>')
 leader('gd','<cmd>lua vim.lsp.buf.definition()<CR>')
 leader('gK','<cmd>lua vim.lsp.buf.hover()<CR>')
@@ -104,5 +105,10 @@ leader('gr','<cmd>lua vim.lsp.buf.rename()<CR>')
 leader('g=', '<cmd>lua vim.lsp.buf.formatting()<CR>')
 leader('gl','<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
 leader('go','<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
+=======
+-- Honestly... i like nerdtree better
+-- leader("n", ":NvimTreeToggle<CR>")
+-- leader("m", ":NvimTreeFindFile<CR>")
 
 
+>>>>>>> 59525bf7e4ad61b0a8f28709dcdc83d3c1205650
