@@ -21,3 +21,5 @@ require("peter.snippets")
 require("peter.cmp")
 require("peter.keybinds")
 
+vim.cmd([[set wrap]])
+vim.cmd([[set lbr]])
