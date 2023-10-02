@@ -81,8 +81,20 @@ def setup_neovide(args):
     if (not os.path.exists("~/.local/share/nvim/site/pack/packer/start/packer.nvim")):
         if os.name == 'nt':
             pass
+<<<<<<< HEAD
+
+        if not skip_nvim_mod:
+            with open(os.path.join(user_path, 'Appdata/Local/nvim/init.vim'), 'a+') as f:
+                f.write(f'source {orig_dir}/base.lua')
+
+        vim_user_path = os.path.join(user_path, '.vim/')
+
+        if(not os.path.exists(os.path.join(user_path, '.vim/bundle/Vundle.vim'))):
+            os.system('git clone https://github.com/VundleVim/Vundle.vim.git ' + os.path.join(user_path, '.vim/bundle/Vundle.vim')) # need vundle 
+=======
         else:
             os.system("git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim")
+>>>>>>> 59525bf7e4ad61b0a8f28709dcdc83d3c1205650
 
 def setup_neovide_deps():
     if os.name == 'nt':

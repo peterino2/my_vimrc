@@ -4,5 +4,3 @@ vim.cmd([[
     au BufRead,BufNewFile *.rdl set filetype=verilog
     au BufRead,BufNewFile *.zig set filetype=zig
 ]])
-
-require("nvim-tree").setup()

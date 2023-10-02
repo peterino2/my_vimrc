@@ -15,10 +15,11 @@ end
 require("peter.options")
 require("peter.plugins")
 require("peter.color")
-require("peter.lsp_config")
 require("peter.filetypes")
 require("peter.init_fzf")
 require("peter.snippets")
-require("peter.coq_setup")
+require("peter.cmp")
 require("peter.keybinds")
 
+vim.cmd([[set wrap]])
+vim.cmd([[set lbr]])

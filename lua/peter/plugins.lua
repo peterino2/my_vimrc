@@ -52,14 +52,6 @@ return packer.startup(function(use)
 
     use "liuchengxu/vim-which-key"
     use "scrooloose/nerdtree" -- Useful lua functions used ny lots of plugins
-    use 
-    {
-        'kyazdani42/nvim-tree.lua',
-        requires = {
-        'kyazdani42/nvim-web-devicons', -- optional, for file icons
-        },
-        tag="nightly"
-    }
     
     use "neovim/nvim-lspconfig"
     use "williamboman/nvim-lsp-installer" -- simple to use language server installer
@@ -69,10 +61,18 @@ return packer.startup(function(use)
     use "junegunn/fzf"
     use "junegunn/fzf.vim"
 
+    use "hrsh7th/cmp-nvim-lsp"
+    use "hrsh7th/cmp-buffer"
+    use "hrsh7th/cmp-path"
+    use "hrsh7th/cmp-cmdline"
+    use "hrsh7th/nvim-cmp"
+
+
+    use 'sheerun/vim-polyglot'
     use "nathom/filetype.nvim"
-    use "ms-jpq/coq_nvim"
-    use { "ms-jpq/coq.artifacts", branch='artifacts'}
-    use {"ms-jpq/coq.thirdparty", branch='3p'}
+    --  use "ms-jpq/coq_nvim"
+    --  use { "ms-jpq/coq.artifacts", branch='artifacts'}
+    --  use {"ms-jpq/coq.thirdparty", branch='3p'}
 
     if PACKER_BOOTSTRAP then
         require("packer").sync()
