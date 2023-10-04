@@ -78,7 +78,7 @@ leader("1i", ":PackerInstall<CR>")
 leader("1l", ":e ~/my_vimrc/base.lua<CR>:cd %:p:h<CR>")
 leader("1k", ":e ~/my_vimrc/lua/peter/keybinds.lua<CR>")
 leader("1L", ":e $MYVIMRC<CR>:cd %:p:h<CR>")
-leader("1n", ":e ~/blogaroni/todo.md<CR>:cd %:p:h<CR>")
+leader("1n", ":e ~/blogaroni/content/todo.md<CR>:cd %:p:h<CR>")
 
 leader("id", ":pu =strftime('%Y-%m-%d')<CR>")
 
