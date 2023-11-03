@@ -47,7 +47,8 @@ keymap("n", "<C-Down>", ":resize +4<CR>", opts) -- make current buffer larger (i
 keymap("n", "<C-Left>", ":vertical resize -8<CR>", opts) -- make current buffer smaller (horizontally, by 8 spaces)
 keymap("n", "<C-Right>", ":vertical resize +8<CR>", opts) -- make curretn buffer larger (horizontally, by 8 spaces)
 
-keymap("n", "<C-p>", ":Files<CR>", opts) -- Fuzzy search with ripgrep and fzf
+keymap("n", "<C-p>", ":GFiles<CR>", opts) -- Fuzzy search with ripgrep and fzf, git only
+keymap("n", "<C-P>", ":Files<CR>", opts) -- Fuzzy search with ripgrep and fzf
 
 --- Visual mode mappings
 --
@@ -79,8 +80,12 @@ leader("1l", ":e ~/my_vimrc/base.lua<CR>:cd %:p:h<CR>")
 leader("1k", ":e ~/my_vimrc/lua/peter/keybinds.lua<CR>")
 leader("1L", ":e $MYVIMRC<CR>:cd %:p:h<CR>")
 leader("1n", ":e ~/blogaroni/content/todo.md<CR>:cd %:p:h<CR>")
+leader("1e", ":e ~/blogaroni/content/exopunk/todo.md<CR>:cd %:p:h<CR>")
 
-leader("id", ":pu =strftime('%Y-%m-%d')<CR>")
+leader("id", ":nput =strftime('%Y-%m-%d')<CR>")
+leader("iD", ":nput =strftime('%b %d %Y')<CR>")
+leader("Id", ":put =strftime('%Y-%m-%d')<CR>")
+leader("ID", ":put =strftime('%b %d %Y')<CR>")
 
 leader("ss", ":split<CR>")
 leader("sv", ":vs w<CR>")

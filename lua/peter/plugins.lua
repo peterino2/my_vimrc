@@ -54,7 +54,7 @@ return packer.startup(function(use)
     use "scrooloose/nerdtree" -- Useful lua functions used ny lots of plugins
     
     use "neovim/nvim-lspconfig"
-    use "williamboman/nvim-lsp-installer" -- simple to use language server installer
+    use "williamboman/mason.nvim"
 
     use "ziglang/zig.vim"
 
