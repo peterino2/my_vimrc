@@ -56,17 +56,18 @@ return packer.startup(function(use)
     use "neovim/nvim-lspconfig"
     use "williamboman/mason.nvim"
 
-    use "ziglang/zig.vim"
-
     use "junegunn/fzf"
     use "junegunn/fzf.vim"
 
+    -- cmp package
     use "hrsh7th/cmp-nvim-lsp"
     use "hrsh7th/cmp-buffer"
     use "hrsh7th/cmp-path"
     use "hrsh7th/cmp-cmdline"
     use "hrsh7th/nvim-cmp"
 
+    -- languages 
+    use "ziglang/zig.vim"
     use "pboettch/vim-cmake-syntax"
 
     use {
@@ -79,9 +80,6 @@ return packer.startup(function(use)
 
     use 'sheerun/vim-polyglot'
     use "nathom/filetype.nvim"
-    --  use "ms-jpq/coq_nvim"
-    --  use { "ms-jpq/coq.artifacts", branch='artifacts'}
-    --  use {"ms-jpq/coq.thirdparty", branch='3p'}
 
     if PACKER_BOOTSTRAP then
         require("packer").sync()

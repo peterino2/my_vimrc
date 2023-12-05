@@ -13,7 +13,7 @@ config_path = os.path.join(user_path, '.config/nvim')
 if os.name == 'nt':
     config_path = os.path.join(user_path, 'Appdata/Local/nvim')
 
-colors_path = os.path.join(config_path, './colors')
+colors_path = os.path.join(config_path, 'colors')
 
 def install_dependencies(args):
     if os.name == 'nt':

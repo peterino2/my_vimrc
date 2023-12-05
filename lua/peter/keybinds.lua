@@ -3,6 +3,7 @@ local opts = {noremap = true, silent = true}
 local term_opts = {silent = true}
 
 local keymap = vim.api.nvim_set_keymap
+local unmap = vim.api.nvim_del_keymap
 
 function nmap(shortcut, command)
     keymap('n', shortcut, command, opts)
@@ -13,7 +14,7 @@ function leader(shortcut, command)
 end
 
 vim.cmd[[
-    set timeoutlen=300
+    set timeoutlen=150
 ]]
 
 -- leader setup
@@ -33,6 +34,7 @@ keymap("n", "<C-k>", "<C-w>k", opts) -- change window up
 keymap("n", "<C-l>", "<C-w>l", opts) -- change window right
 keymap("n", "<C-h>", "<C-w>h", opts) -- change window left
 keymap("n", "<C-x>", ":q<CR>", opts) -- close buffer
+keymap("n", "<C-w>", ":q<CR>", opts) -- close buffer
 keymap("n", "<C-s>", ":wa<CR>", opts) -- save all
 
 keymap("n", "<F2>", ":tabp<CR>", opts) -- previous tab
@@ -47,11 +49,14 @@ keymap("n", "<C-Down>", ":resize +4<CR>", opts) -- make current buffer larger (i
 keymap("n", "<C-Left>", ":vertical resize -8<CR>", opts) -- make current buffer smaller (horizontally, by 8 spaces)
 keymap("n", "<C-Right>", ":vertical resize +8<CR>", opts) -- make curretn buffer larger (horizontally, by 8 spaces)
 
+keymap("i", "<C-BS>", "<ESC>caw", opts) -- delete last word
+
+unmap("i", "<C-w>") -- delete last word
+
 keymap("n", "<C-p>", ":GFiles<CR>", opts) -- Fuzzy search with ripgrep and fzf, git only
 keymap("n", "<C-P>", ":Files<CR>", opts) -- Fuzzy search with ripgrep and fzf
 
 --- Visual mode mappings
---
 keymap("v", ">", ">gv", opts) -- indent to the right
 keymap("v", "<", "<gv", opts) -- indent to the left
 
