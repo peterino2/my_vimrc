@@ -73,10 +73,20 @@ def setup_neovim(args):
 
     vim_user_path = os.path.join(user_path, '.vim/')
 
+    packerpath_unix = "~/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    packerpath_nt = "%LOCALAPPDATA%/nvim-data/site/pack/packer/start/packer.nvim"
 
-    if (not os.path.exists("~/.local/share/nvim/site/pack/packer/start/packer.nvim")):
+    packerpath = packerpath_unix
+
+    if os.name == 'nt':
+        packerpath = packerpath_nt
+
+    if (not os.path.exists(packerpath)):
         if os.name == 'nt':
-            pass
+            os.system('git clone https://github.com/wbthomason/packer.nvim "%LOCALAPPDATA%/nvim-data/site/pack/packer/start/packer.nvim"')
+        else:
+            os.system('git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim')
+
         if not skip_nvim_mod:
             with open(os.path.join(user_path, 'Appdata/Local/nvim/init.vim'), 'a+') as f:
                 f.write(f'source {orig_dir}/base.lua')
