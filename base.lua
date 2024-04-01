@@ -21,6 +21,7 @@ require("peter.snippets")
 require("peter.cmp")
 require("peter.keybinds")
 require("peter.treesitter")
+require("peter.local_features")
 
 vim.cmd([[set wrap]])
 vim.cmd([[set lbr]])

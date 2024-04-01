@@ -81,6 +81,8 @@ return packer.startup(function(use)
     use 'sheerun/vim-polyglot'
     use "nathom/filetype.nvim"
 
+    use 'github/copilot.vim'
+
     if PACKER_BOOTSTRAP then
         require("packer").sync()
     end

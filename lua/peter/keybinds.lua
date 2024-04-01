@@ -1,5 +1,4 @@
 local opts = {noremap = true, silent = true}
-
 local term_opts = {silent = true}
 
 local keymap = vim.api.nvim_set_keymap
@@ -140,3 +139,7 @@ leader('gr','<cmd>lua vim.lsp.buf.rename()<CR>')
 leader('g=','<cmd>lua vim.lsp.buf.formatting()<CR>')
 leader('gl','<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
 leader('go','<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
+
+leader('1sd', ':!rm -rf \\%LOCALAPPDATA\\%/nvim-data/shada')
+
+leader('yp', ':CopyPathToClipboard<CR>')
