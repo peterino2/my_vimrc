@@ -143,3 +143,5 @@ leader('go','<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
 leader('1sd', ':!rm -rf \\%LOCALAPPDATA\\%/nvim-data/shada')
 
 leader('yp', ':CopyPathToClipboard<CR>')
+leader('yP', ':CopyDirectoryToClipboard<CR>') --
+
