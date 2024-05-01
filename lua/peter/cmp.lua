@@ -65,7 +65,7 @@
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local servers = {'zls'}
+local servers = {'zls', 'clangd'}
 
 local lspconfig = require('lspconfig')
 for _, lsp in ipairs(servers) do

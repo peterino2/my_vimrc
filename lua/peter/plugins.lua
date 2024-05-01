@@ -82,6 +82,9 @@ return packer.startup(function(use)
     use "nathom/filetype.nvim"
 
     use 'github/copilot.vim'
+    use 'NLKNguyen/papercolor-theme'
+    use 'agude/vim-eldar'
+    use 'sjl/badwolf/'
 
     if PACKER_BOOTSTRAP then
         require("packer").sync()
