@@ -19,13 +19,13 @@ local function get_directory_from_path(path)
         end
         lastStr = token
     end
-    print("Copied directory to clipboard" .. ostr)
     return ostr
 end
 
 local function copy_directory_to_clipboard()
     local path = vim.fn.expand('%:p')
     local directory = get_directory_from_path(path)
+    print("Copied directory to clipboard" .. ostr)
     vim.fn.setreg('+', directory)
 end
 

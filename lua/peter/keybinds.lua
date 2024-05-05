@@ -1,6 +1,8 @@
 local opts = {noremap = true, silent = true}
 local term_opts = {silent = true}
 
+-- huh --
+
 local keymap = vim.api.nvim_set_keymap
 local unmap = vim.api.nvim_del_keymap
 
@@ -12,8 +14,12 @@ function leader(shortcut, command)
     keymap('n', "<leader>"..shortcut, command, opts)
 end
 
+function leader(shortcut, command)
+    keymap('n', "<leader>"..shortcut, command, opts)
+end
+
 vim.cmd[[
-    set timeoutlen=150
+    set timeoutlen=300
 ]]
 
 -- leader setup
@@ -41,7 +47,6 @@ keymap("n", "<F3>", ":tabn<CR>", opts) -- next tab
 
 keymap("n", "<C-t>", ":tabnew %<CR>", opts) -- open current buffer in new tab.
 
-
 keymap("n", "<C-Up>", ":resize -4<CR>", opts)  -- make current buffer smaller (in height, by 4 spaces)
 keymap("n", "<C-Down>", ":resize +4<CR>", opts) -- make current buffer larger (in height, by 4 spaces)
 
@@ -58,10 +63,11 @@ keymap("n", "<C-P>", ":Files<CR>", opts) -- Fuzzy search with ripgrep and fzf
 --- Visual mode mappings
 keymap("v", ">", ">gv", opts) -- indent to the right
 keymap("v", "<", "<gv", opts) -- indent to the left
-
 keymap("v", "<A-j>", ":m .+1<CR>==", opts) -- move selected line down
 keymap("v", "<A-k>", ":m .-2<CR>==", opts) -- move selected line up
-keymap("v", "p", '"_dP', opts)
+keymap("v", "p", '"_dP', opts)  -- Do not copy to buffer on paste in visual mode
+keymap("v", "d", '"_d', opts)  -- Do not copy to buffer on delete in visual mode
+keymap("n", "dd", '"_dd', opts)  -- Do not copy to buffer on delete in normal mode
 
 -- Visual Block --
 -- Move text up and down
@@ -71,20 +77,26 @@ keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 -- Terminal --
--- Better terminal navigation
+-- Better terminal navigation lets you move between windows if one of the windows is terminal
 keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
 keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 --- Leader Keys ---
+
+-- Open various files of interest
 leader("1r", ":source  $MYVIMRC<CR>")
 leader("1i", ":PackerInstall<CR>")
 leader("1l", ":e ~/my_vimrc/base.lua<CR>:cd %:p:h<CR>")
 leader("1k", ":e ~/my_vimrc/lua/peter/keybinds.lua<CR>")
+leader("1K", ":e ~/my_vimrc/lua/peter/keybinds.lua<CR>")
 leader("1L", ":e $MYVIMRC<CR>:cd %:p:h<CR>")
 leader("1n", ":e ~/blogaroni/content/todo.md<CR>:cd %:p:h<CR>")
+leader("1N", ":!nvim<CR>")
 leader("1e", ":e ~/blogaroni/content/exopunk/todo.md<CR>:cd %:p:h<CR>")
+
+leader("jk", ":sv<CR>:e ~/journal.txt<CR>")
 
 leader("id", ":nput =strftime('%Y-%m-%d')<CR>")
 leader("iD", ":nput =strftime('%b %d %Y')<CR>")
@@ -113,16 +125,28 @@ leader('bk', ":bprevious<CR>")
 leader('bJ', ":blast<CR>")
 leader('bK', ":bfirst<CR>")
 
-keymap('n', "<leader>bd", ":bd", {noremap=true})
+leader('b1', ":buffer 1<CR>")
+leader('b2', ":buffer 2<CR>")
+leader('b3', ":buffer 3<CR>")
+leader('b4', ":buffer 4<CR>")
+leader('b5', ":buffer 5<CR>")
+leader('b6', ":buffer 6<CR>")
+leader('b7', ":buffer 7<CR>")
+leader('b8', ":buffer 8<CR>")
+leader('b9', ":buffer 9<CR>")
+
+keymap('n', "<leader>bd", ":bd ", {noremap=true})
 keymap('n', "<leader>fr", ":Rg ", {noremap=true})
 
-leader('eW', ":set wrap<CR>")
-leader('ew', ":set nowrap<CR>")
-leader('es', ":set fdm=syntax<CR>")
-leader('ee', ":set fdm=manual<CR>")
+leader('fW', ":set wrap<CR>")
+leader('fw', ":set nowrap<CR>")
+leader('fs', ":set fdm=syntax<CR>")
+leader('fe', ":set fdm=manual<CR>")
 
 leader("n", ":NERDTreeToggle<CR>")
 leader("m", ":NERDTreeFind<CR>")
+
+
 leader('gD','<cmd>lua vim.lsp.buf.declaration()<CR>')
 leader('gd','<cmd>lua vim.lsp.buf.definition()<CR>')
 leader('gK','<cmd>lua vim.lsp.buf.hover()<CR>')
@@ -140,8 +164,11 @@ leader('g=','<cmd>lua vim.lsp.buf.formatting()<CR>')
 leader('gl','<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
 leader('go','<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
 
-leader('1sd', ':!rm -rf \\%LOCALAPPDATA\\%/nvim-data/shada')
+leader('1sd', ':!rm -rf \\%LOCALAPPDATA\\%/nvim-data/shada<CR>')
 
 leader('yp', ':CopyPathToClipboard<CR>')
 leader('yP', ':CopyDirectoryToClipboard<CR>') --
+
+leader('pc', ':P4Checkout<CR>') --
+leader('p4', ':P4Client') --
 

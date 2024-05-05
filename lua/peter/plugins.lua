@@ -84,7 +84,7 @@ return packer.startup(function(use)
     use 'github/copilot.vim'
     use 'NLKNguyen/papercolor-theme'
     use 'agude/vim-eldar'
-    use 'sjl/badwolf/'
+    -- use 'sjl/badwolf/'
 
     if PACKER_BOOTSTRAP then
         require("packer").sync()
