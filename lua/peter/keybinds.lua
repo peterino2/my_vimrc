@@ -97,6 +97,9 @@ leader("1N", ":!nvim<CR>")
 leader("1e", ":e ~/blogaroni/content/exopunk/todo.md<CR>:cd %:p:h<CR>")
 
 leader("jk", ":sv<CR>:e ~/journal.txt<CR>")
+leader("hk", ":e ~/journal.txt<CR>:cd %:p:h<CR>")
+leader("jm", ":sv<CR>:e ~/OneDrive - Microsoft/notes/notes.txt<CR>")
+leader("hm", ":e ~/OneDrive - Microsoft/notes/notes.txt<CR>:cd %:p:h<CR>")
 
 leader("id", ":nput =strftime('%Y-%m-%d')<CR>")
 leader("iD", ":nput =strftime('%b %d %Y')<CR>")
@@ -169,6 +172,16 @@ leader('1sd', ':!rm -rf \\%LOCALAPPDATA\\%/nvim-data/shada<CR>')
 leader('yp', ':CopyPathToClipboard<CR>')
 leader('yP', ':CopyDirectoryToClipboard<CR>') --
 
-leader('pc', ':P4Checkout<CR>') --
-leader('p4', ':P4Client') --
+
+-- perforce stuff
+leader('pr', ':P4revert %:p<CR>') --
+leader('pk', ':P4discard %:p<CR>') --
+leader('pR', ':P4revert ') --
+leader('pK', ':P4discard ') --
+leader('pc', ':P4checkout %:p<CR>') --
+leader('pa', ':P4add %:p<CR>') --
+leader('pC', ':P4checkout ') --
+leader('p4', ':P4client ') --
+leader('pw', ':P4showClient<CR>')
+leader('po', ':P4opened<CR>')
 

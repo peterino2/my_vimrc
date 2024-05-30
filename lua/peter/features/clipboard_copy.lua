@@ -10,22 +10,24 @@ local function get_directory_from_path(path)
     local lastStr = ""
     local first = true
     for token in string.gmatch(path, "[^/\\]+") do
-        if first then
+        ostr = ostr .. lastStr
+
+        lastStr = token .. "/"
+
+        if not first then
+            lastStr = lastStr
+        else 
             first = false
-            ostr = ostr .. lastStr
-        else
-            first = false
-            ostr = ostr .. "/" .. lastStr
         end
-        lastStr = token
     end
+    ostr = string.sub(ostr, 1, string.len(ostr) - 1)
     return ostr
 end
 
 local function copy_directory_to_clipboard()
     local path = vim.fn.expand('%:p')
     local directory = get_directory_from_path(path)
-    print("Copied directory to clipboard" .. ostr)
+    print("Copied directory to clipboard: " .. directory)
     vim.fn.setreg('+', directory)
 end
 
