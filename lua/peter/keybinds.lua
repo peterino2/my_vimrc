@@ -185,3 +185,10 @@ leader('p4', ':P4client ') --
 leader('pw', ':P4showClient<CR>')
 leader('po', ':P4opened<CR>')
 
+leader('lf', ':luafile %:p<CR>')
+
+leader("rw", ':PjrSetCwd %:p:h<CR>')
+leader("rc", ':PjrSetCmd ')
+leader("rr", ':PjrRun<CR>')
+leader("rx", ':PjrAutocmd<CR>')
+

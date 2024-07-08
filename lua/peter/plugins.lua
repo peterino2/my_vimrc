@@ -70,14 +70,6 @@ return packer.startup(function(use)
     use "ziglang/zig.vim"
     use "pboettch/vim-cmake-syntax"
 
-    use {
-       'nvim-treesitter/nvim-treesitter',
-        run = function()
-            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-            ts_update()
-        end,
-    }
-
     use 'sheerun/vim-polyglot'
     use "nathom/filetype.nvim"
 
