@@ -19,6 +19,7 @@ local function pjr_run()
     if vim.g.pjr_cmd == nil then 
         return
     end
+    print(pjr_get_dir())
 
     c = ":tabnew | term cd /d " .. pjr_get_dir() .. " && " .. vim.g.pjr_cmd 
 
@@ -88,12 +89,22 @@ local function pjr_autobuf_forced()
     pjr_autobuf()
 end
 
+local function edit_pjr() 
+    vim.cmd(":tabnew " .. pjr_get_dir() .. "/.peterino")
+    pjr_autobuf_forced()
+end
+
 -- test_main()
 vim.api.nvim_create_user_command("PjrSetCmd", pjr_set_cmd_user, {nargs = 1, force = true, desc = "Sets the command for the project runner"})
 vim.api.nvim_create_user_command("PjrSetCwd", pjr_set_cwd_user, {nargs = 1, force = true, desc = "Sets the working directory for the project runner"})
 vim.api.nvim_create_user_command("PjrRun", pjr_run, {nargs = 0, force = true, desc = "Runs the command"})
 vim.api.nvim_create_user_command("PjrAutocmd", pjr_autobuf, {nargs = 0, force = true, desc = "automatic .peterino file find"})
 vim.api.nvim_create_user_command("PjrAutocmdForce", pjr_autobuf_forced, {nargs = 0, force = true, desc = "automatic .peterino file find"})
+vim.api.nvim_create_user_command("PjrEdit", pjr_autobuf_forced, {nargs = 0, force = true, desc = "automatic .peterino file find"})
+
+
+local function go_to_file()
+end
 
 -- how should this work.
 -- 1. let me set a command

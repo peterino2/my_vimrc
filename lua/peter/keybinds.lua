@@ -190,5 +190,5 @@ leader('lf', ':luafile %:p<CR>')
 leader("rw", ':PjrSetCwd %:p:h<CR>')
 leader("rc", ':PjrSetCmd ')
 leader("rr", ':PjrRun<CR>')
-leader("rx", ':PjrAutocmd<CR>')
+leader("rx", ':PjrAutocmdForce<CR>')
 

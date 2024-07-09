@@ -1,6 +1,7 @@
 
 vim.cmd([[
     set rtp+=~/my_vimrc
+    set isfname-=:
 ]])
 
 function test_path()
