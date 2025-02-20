@@ -106,8 +106,8 @@ leader("iD", ":nput =strftime('%b %d %Y')<CR>")
 leader("Id", ":put =strftime('%Y-%m-%d')<CR>")
 leader("ID", ":put =strftime('%b %d %Y')<CR>")
 
-leader("ss", ":split<CR>")
-leader("sv", ":vs w<CR>")
+leader("vs", ":split<CR>")
+leader("vv", ":vs w<CR>")
 
 leader("wt", ":tabnew %<CR>")
 leader("wn", ":tabnew<CR>")
@@ -192,3 +192,9 @@ leader("rc", ':PjrSetCmd ')
 leader("rr", ':PjrRun<CR>')
 leader("rx", ':PjrAutocmdForce<CR>')
 
+leader("rf", ":PjrFormat %:p:h<CR>")
+
+
+leader("sc", ":set syntax=cpp<CR>")
+leader("sz", ":set syntax=zig<CR>")
+leader("ss", ":set syntax=")

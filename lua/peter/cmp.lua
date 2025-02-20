@@ -75,7 +75,7 @@ for _, lsp in ipairs(servers) do
     }
 end
 
-lspconfig["omnisharp"].setup {
-    cmd = { 'omnisharp', '-z' },
-    capabilities = capabilities
-}
+-- lspconfig["omnisharp"].setup {
+    -- cmd = { 'omnisharp', '-z' },
+    -- capabilities = capabilities
+-- }

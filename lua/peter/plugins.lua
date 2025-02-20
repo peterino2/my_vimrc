@@ -73,7 +73,6 @@ return packer.startup(function(use)
     use 'sheerun/vim-polyglot'
     use "nathom/filetype.nvim"
 
-    use 'github/copilot.vim'
     use 'NLKNguyen/papercolor-theme'
     use 'agude/vim-eldar'
     -- use 'sjl/badwolf/'
