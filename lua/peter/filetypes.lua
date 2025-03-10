@@ -3,4 +3,5 @@ vim.cmd([[
     au BufRead,BufNewFile *.peg set filetype=asm
     au BufRead,BufNewFile *.rdl set filetype=verilog
     au BufRead,BufNewFile *.zig set filetype=zig
+    au BufRead,BufNewFile *.nwsl set filetype=glsl
 ]])
