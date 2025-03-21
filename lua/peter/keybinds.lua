@@ -192,3 +192,5 @@ leader("rc", ':PjrSetCmd ')
 leader("rr", ':PjrRun<CR>')
 leader("rx", ':PjrAutocmdForce<CR>')
 
+leader("tt", ':DiffviewOpen<CR>')
+

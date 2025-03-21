@@ -14,8 +14,8 @@ end
 -- runtimepath = runtimepath .. script_path()
 
 require("peter.options")
-require("peter.plugins")
 require("peter.color")
+require("peter.plugins")
 require("peter.filetypes")
 require("peter.init_fzf")
 require("peter.snippets")
