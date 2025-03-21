@@ -102,7 +102,6 @@ vim.api.nvim_create_user_command("PjrAutocmd", pjr_autobuf, {nargs = 0, force = 
 vim.api.nvim_create_user_command("PjrAutocmdForce", pjr_autobuf_forced, {nargs = 0, force = true, desc = "automatic .peterino file find"})
 vim.api.nvim_create_user_command("PjrEdit", pjr_autobuf_forced, {nargs = 0, force = true, desc = "automatic .peterino file find"})
 
-
 local function go_to_file()
 end
 
